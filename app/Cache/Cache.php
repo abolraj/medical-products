@@ -23,11 +23,11 @@ abstract class Cache
     public static abstract function connect(): bool;
 
     /**
-     * 
+     * Get the cached value by key
      *
-     * @param [type] $key
-     * @param [type] $default
-     * @return void
+     * @param string $key
+     * @param mixed $default
+     * @return string|bool
      */
     public static abstract function get($key, $default = null): string | bool;
 
