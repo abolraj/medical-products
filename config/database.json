@@ -1,0 +1,10 @@
+{
+    "db" : "db-name",
+    "dbms" : "mysql",
+    "dbs" : {
+        "db-name" : {
+            "username" : "db-user-name",
+            "password" : "db-password"
+        }
+    }
+}
