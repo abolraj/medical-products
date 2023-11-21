@@ -54,7 +54,7 @@ abstract class Cache
      *
      * @param string $key
      * @param mixed $default
-     * @return string | bool
+     * @return string|bool
      */
     public static function pop($key, $default = null): string | bool
     {
@@ -63,7 +63,6 @@ abstract class Cache
             return false;
 
         self::destroy($key);
-        
         return $value;
     }
 }
