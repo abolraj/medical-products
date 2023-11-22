@@ -32,6 +32,18 @@ abstract class CacheDriver
      */
     public static abstract function disconnect(): bool;
 
+    /**
+     * Set the config
+     *
+     * @param array $settings
+     * @return array
+     */
+    public static function config($settings): array
+    {
+        self::$settings = $settings;
+
+        return self::$settings;
+    }
 
     /**
      * Get the cached value by key
