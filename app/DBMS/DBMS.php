@@ -1,20 +1,23 @@
 <?php
+
 namespace DB;
-abstract class DBMS {
+
+abstract class DBMS
+{
     /**
      * The host of the database server
      *
      * @var string
      */
     protected static string $host;
-    
+
     /**
      * The username for accessing the database server
      *
      * @var string
      */
     protected static string $username;
-    
+
     /**
      * The database name 
      *
@@ -35,21 +38,31 @@ abstract class DBMS {
      * @var string
      */
     protected static string $password;
-    
+
+    public static function config($settings): array
+    {
+        self::$settings = $settings;
+        self::$host = self::$settings['host'];
+        self::$username = self::$settings['username'];
+        self::$password = self::$settings['password'];
+
+        return self::$settings;
+    }
+
     /**
      * Connect to the database server
      *
      * @return bool Returns true on success and false on failure
      */
     abstract public static function connect(): bool;
-    
+
     /**
      * Disconnect from the database server
      *
      * @return bool Returns true on success and false on failure
      */
     abstract public static function disconnect(): bool;
-    
+
     /**
      * Execute a query on the database
      *
