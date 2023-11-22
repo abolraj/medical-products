@@ -49,6 +49,14 @@ abstract class DBMS
         return self::$settings;
     }
 
+    public static function set_db($db_name): string
+    {
+        self::$db_name = $db_name;
+
+        return self::$db_name;
+    }
+
+
     /**
      * Connect to the database server
      *
