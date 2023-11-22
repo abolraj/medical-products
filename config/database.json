@@ -3,6 +3,7 @@
     "dbms" : "mysql",
     "dbs" : {
         "db-name" : {
+            "host": "host",
             "username" : "db-user-name",
             "password" : "db-password"
         }
