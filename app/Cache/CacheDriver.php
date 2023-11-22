@@ -1,4 +1,7 @@
 <?php
+
+namespace Cache;
+
 abstract class CacheDriver
 {
     /**
@@ -6,21 +9,29 @@ abstract class CacheDriver
      *
      * @var array
      */
-    private array $settings = [];
+    protected array $settings = [];
 
     /**
      * Time To Live
      *
      * @var integer
      */
-    private int $ttl = 3600;
+    protected int $ttl = 3600;
 
     /**
      * Connect to the cache server
      *
-     * @return boolean Returns true on success and false on failure
+     * @return bool Returns true on success and false on failure
      */
     public static abstract function connect(): bool;
+
+    /**
+     * Disonnect from the cache server
+     *
+     * @return bool Returns true on success and false on failure
+     */
+    public static abstract function disconnect(): bool;
+
 
     /**
      * Get the cached value by key
@@ -29,7 +40,7 @@ abstract class CacheDriver
      * @param mixed $default
      * @return string|bool
      */
-    public static abstract function get($key, $default = null): string | bool;
+    public static abstract function get($key, $default = null): mixed;
 
     /**
      * Set the cached value by key
@@ -59,7 +70,7 @@ abstract class CacheDriver
     public static function pop($key, $default = null): string | bool
     {
         $value = self::get($key, $default);
-        if ($value === false) 
+        if ($value === false)
             return false;
 
         self::destroy($key);
