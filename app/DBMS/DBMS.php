@@ -23,6 +23,13 @@ abstract class DBMS {
     protected static string $db_name = null;
 
     /**
+     * The settings passed in the config file and relevant DBMS
+     *
+     * @var array
+     */
+    protected static array $settings = [];
+
+    /**
      * The password for accessing the database server
      *
      * @var string
