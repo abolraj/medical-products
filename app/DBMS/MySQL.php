@@ -4,7 +4,18 @@ namespace DB;
 
 class MySQL extends DBMS
 {
+    /**
+     * The PDO object to handle DBMS functionalities
+     *
+     * @var \PDO
+     */
     private static \PDO $pdo = null;
+
+    /**
+     * The PDOStatement for handling query results
+     *
+     * @var \PDOStatement
+     */
     private static \PDOStatement $pdo_statement = null;
 
     public static function connect(): bool
