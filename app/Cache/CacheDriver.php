@@ -1,5 +1,5 @@
 <?php
-abstract class Cache
+abstract class CacheDriver
 {
     /**
      * The default settings setted from relevant config files
