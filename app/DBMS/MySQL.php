@@ -20,8 +20,14 @@ class MySQL extends DBMS
 
     public static function connect(): bool
     {
-        self::$pdo = new \PDO(sprintf("mysql:host=%s;dbname=%s", self::$host, self::$db_name), self::$username, self::$password);
-        return true;
+        try {
+            self::$pdo = new \PDO(sprintf("mysql:host=%s;dbname=%s", self::$host, self::$db_name), self::$username, self::$password);
+            self::$pdo -> setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            return true;
+        } catch(\PDOException $e) {
+            die('PDO MySQL Err : ' . $e->getMessage());
+            return false;
+        }
     }
 
     public static function disconnect(): bool
