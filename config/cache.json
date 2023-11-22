@@ -1,11 +1,13 @@
 {
-    "driver" : "",
+    "driver" : "redis",
     "drivers" : {
         "redis" : {
-
+            "host" : "localhost",
+            "port" : "6021"
         },
         "memcached" : {
-            
+            "host" : "localhost",
+            "port" : "11211"
         }
     }
 }
