@@ -6,7 +6,7 @@ use Predis\Client;
 
 Autoloader::register();
 
-class Redis extends CacheDriver {
+class RedisDriver extends CacheDriver {
     private static Client $client = null;
     public static function connect(): bool
     {
