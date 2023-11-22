@@ -9,8 +9,8 @@ $db_config = get_config('database');
 // {
 //     "db" : "db-name",
 //     "dbms" : "mysql",
-//     "dbs" : {
-//         "db-name" : {
+//     "dbmses" : {
+//         "dbms-name" : {
 //             "host": "host",
 //             "username" : "db-user-name",
 //             "password" : "db-password"
@@ -18,15 +18,15 @@ $db_config = get_config('database');
 //     }
 // }
 
-define('DB_NAME', $db_config);
+define('DBMS_NAME', $db_config);
 
-if (!DB_NAME || !in_array(DB_NAME, array_keys($db_config['dbs']))) {
-    die('DB Err: No DB found in config.database.dbs');
+if (!DBMS_NAME || !in_array(DBMS_NAME, array_keys($db_config['dbmses']))) {
+    die('DB Err: No DBMS found in config.database.dbmses');
 }
 
 if ($db_config['dbms'] === 'mysql') {
-    MySQL::config($db_config['dbs'][DB_NAME]);
-    MYSQL::set_db(DB_NAME);
+    MySQL::config($db_config['dbmses'][DBMS_NAME]);
+    MYSQL::set_db($db_config['db']);
     MySQL::connect();
 
     DB::set_DBMS(MySQL::class);
