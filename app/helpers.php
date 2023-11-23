@@ -3,7 +3,6 @@
 // Constants
 
 // Const - Directories
-define('DIR_ROOT', trim(env('APP_ROOT'), '/'));
 define('DIR_APP', DIR_ROOT . '/app');
 define('DIR_CONFIG', DIR_ROOT . '/config');
 define('DIR_DATABASE', DIR_ROOT . '/database');
