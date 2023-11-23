@@ -37,3 +37,25 @@ function get_config($config_name): array
     $config_json = file_get_contents($config_file);
     return json_decode($config_json);
 }
+
+/**
+ * Require the php files in the directory automaticly
+ * Note that the non-global variables will not load !
+ *
+ * @param string $directory
+ * @param array $exclude
+ * @return void
+ */
+function auto_require_scripts($directory_pattern, $exclude = []) {
+    $files = glob($directory_pattern . '/*.php');
+    
+    // Exclude files
+    if(!empty($exclude)){
+        $exclude_p = implode('|', $exclude);
+        $exclude_p = "(".$exclude_p.")\.php$";
+        $files = preg_grep("/$exclude_p/", $files, PREG_GREP_INVERT);
+    }
+
+    foreach($files as $file)
+        require_once($file);
+}
