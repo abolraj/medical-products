@@ -1,5 +1,5 @@
 <?php
-
+namespace Model;
 use DB\DB;
 
 abstract class Model
