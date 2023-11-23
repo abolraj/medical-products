@@ -17,7 +17,7 @@ class DB extends DBMS
      * @param string $dbms The DBMS::class
      * @return void
      */
-    public static function set_DBMS($dbms)
+    public static function set_dbms($dbms)
     {
         self::$dbms = $dbms;
     }
@@ -42,9 +42,9 @@ class DB extends DBMS
         return self::$dbms::fetch($is_assoc);
     }
 
-    public static function fetchAll($is_assoc = true): array
+    public static function fetch_all($is_assoc = true): array
     {
-        return self::$dbms::fetchAll($is_assoc);
+        return self::$dbms::fetch_all($is_assoc);
     }
 
 
@@ -105,7 +105,7 @@ class DB extends DBMS
             $args_query,
         ));
 
-        return self::fetchAll();
+        return self::fetch_all();
     }
 
 
@@ -181,6 +181,6 @@ class DB extends DBMS
             $table
         ));
 
-        return self::fetchAll();
+        return self::fetch_all();
     }
 }

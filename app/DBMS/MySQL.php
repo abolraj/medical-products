@@ -46,7 +46,7 @@ class MySQL extends DBMS
         return self::$pdo_statement->fetch($is_assoc ? \PDO::FETCH_ASSOC : \PDO::FETCH_NUM);
     }
 
-    public static function fetchAll($is_assoc = true): array
+    public static function fetch_all($is_assoc = true): array
     {
         return self::$pdo_statement->fetchAll($is_assoc ? \PDO::FETCH_ASSOC : \PDO::FETCH_NUM);
     }

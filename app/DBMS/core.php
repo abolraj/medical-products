@@ -29,5 +29,5 @@ if ($db_config['dbms'] === 'mysql') {
     MYSQL::set_db($db_config['db']);
     MySQL::connect();
 
-    DB::set_DBMS(MySQL::class);
+    DB::set_dbms(MySQL::class);
 }
