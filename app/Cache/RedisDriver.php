@@ -7,7 +7,7 @@ use Predis\Client;
 Autoloader::register();
 
 class RedisDriver extends CacheDriver {
-    private static Client $client = null;
+    private static Client $client;
     public static function connect(): bool
     {
         self::$client = new Client([
@@ -15,7 +15,7 @@ class RedisDriver extends CacheDriver {
             'port' => self::$settings['port'],
         ]);
 
-        if($pass = self::$settings['password']){
+        if($pass = @self::$settings['password']){
             self::$client -> auth($pass);
         }
 
