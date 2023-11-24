@@ -34,6 +34,7 @@ class DB extends DBMS
 
     public static function query($query)
     {
+        echo "Q:$query\n";
         return self::$dbms::query($query);
     }
 
@@ -47,6 +48,44 @@ class DB extends DBMS
         return self::$dbms::fetch_all($is_assoc);
     }
 
+        /**
+     * Filters values to pass in SQL Query
+     *
+     * @param array $values
+     * @return array
+     */
+    public static function filter_sql_values($values, $excludes = []): array
+    {
+        return array_map(function ($value) use ($excludes) {
+            if(in_array($value, $excludes))
+                return $value;
+            $value = addslashes($value);
+            if (preg_match('/^\d+$/', $value)) {
+            } else {
+                $value = "'" . $value . "'";
+            }
+            return $value;
+        }, $values);
+    }
+
+    /**
+     * Filters names (column, table, ...) to pass in SQL Query
+     *
+     * @param array $values
+     * @return array
+     */
+    public static function filter_sql_names($values, $excludes = []): array
+    {
+        return array_map(function ($value) use ($excludes){
+            if(in_array($value, $excludes))
+                return $value;
+            $value = addslashes($value);
+            $value = "`" . $value . "`";
+            return $value;
+        }, $values);
+    }
+
+
 
     /**
      * Create - CRUD Operations
@@ -58,11 +97,13 @@ class DB extends DBMS
      */
     public static function insert($table, $data)
     {
+
+
         self::query(sprintf(
             'INSERT INTO `%s` (%s) VALUES (%s)',
             $table,
-            implode(',', array_keys($data)),
-            implode(',', array_values($data)),
+            implode(',', self::filter_sql_names(array_keys($data))),
+            implode(',', self::filter_sql_values(array_values($data))),
         ));
     }
 
@@ -78,8 +119,9 @@ class DB extends DBMS
      */
     public static function select($table, $where, $attrs = ['*'], $args = []): array
     {
+        $attrs = self::filter_sql_names($attrs, ['*']);
         $args_query = '';
-        
+
         // Order by statement
         if (isset($args['order_by'])) {
             $args_query .= ' ORDER BY ' . $args['order_by'];
@@ -120,10 +162,19 @@ class DB extends DBMS
      */
     public static function update($table, $data, $where)
     {
+        $set_keys = self::filter_sql_names(array_keys($data));
+        $set_values = self::filter_sql_values(array_values($data));
+        $set_count = count($data);
+        $set = '';
+        for($i = 0; $i < $set_count; $i++) {
+            $set .= $set_keys[$i] . '=' . $set_values[$i] . ',';
+        }
+        $set = rtrim($set, ',');
+
         self::query(sprintf(
             'UPDATE `%s` SET %s WHERE (%s)',
             $table,
-            implode(',', $data),
+            $set,
             implode(',', $where),
         ));
     }
@@ -156,6 +207,7 @@ class DB extends DBMS
      */
     public static function find($table, $where, $attrs = ['*'], $offset = 1): array
     {
+        $attrs = self::filter_sql_names($attrs, ['*']);
         self::query(sprintf(
             'SELECT %s FROM `%s` WHERE (%s) LIMIT %s,1',
             implode(',', $attrs),
@@ -175,6 +227,8 @@ class DB extends DBMS
      */
     public static function all($table, $attrs = ['*']): array
     {
+        $attrs = self::filter_sql_names($attrs, ['*']);
+        
         self::query(sprintf(
             'SELECT %s FROM `%s`',
             implode(',', $attrs),
