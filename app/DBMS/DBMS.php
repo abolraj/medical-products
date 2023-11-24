@@ -23,7 +23,7 @@ abstract class DBMS
      *
      * @var string
      */
-    protected static string $db_name = null;
+    protected static string $db_name;
 
     /**
      * The settings passed in the config file and relevant DBMS
