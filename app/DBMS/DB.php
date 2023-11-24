@@ -9,7 +9,7 @@ class DB extends DBMS
      *
      * @var string
      */
-    private static string $dbms = null;
+    private static string $dbms;
 
     /**
      * Set the DBMS class
