@@ -34,7 +34,7 @@ function get_config($config_name): array
 {
     $config_file = DIR_CONFIG . "/{$config_name}.json";
     $config_json = file_get_contents($config_file);
-    return json_decode($config_json);
+    return json_decode($config_json, 1);
 }
 
 /**
