@@ -9,7 +9,7 @@ abstract class CacheDriver
      *
      * @var array
      */
-    protected array $settings = [];
+    protected static array $settings = [];
 
     /**
      * Time To Live
