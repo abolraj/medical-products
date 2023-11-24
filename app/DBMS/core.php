@@ -18,7 +18,7 @@ $db_config = get_config('database');
 //     }
 // }
 
-define('DBMS_NAME', $db_config);
+define('DBMS_NAME', $db_config['dbms']);
 
 if (!DBMS_NAME || !in_array(DBMS_NAME, array_keys($db_config['dbmses']))) {
     die('DB Err: No DBMS found in config.database.dbmses');
