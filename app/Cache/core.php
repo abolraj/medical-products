@@ -18,7 +18,7 @@ $cache_config = get_config('cache');
 //     }
 // }
 
-define('CACHE_DRIVER_NAME', $cache_config);
+define('CACHE_DRIVER_NAME', $cache_config['driver']);
 
 if (!CACHE_DRIVER_NAME || !in_array(CACHE_DRIVER_NAME, array_keys($cache_config['drivers']))) {
     die('Cache Err: No Cache Driver found in config.cache.driver');
