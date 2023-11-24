@@ -1,4 +1,4 @@
 .env
 vendor/
 storage/*
-composer.*
+composer.lock
