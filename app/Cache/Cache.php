@@ -10,7 +10,7 @@ class Cache extends CacheDriver
      *
      * @var string
      */
-    private static string $cache_driver = null;
+    private static string $cache_driver;
 
     /**
      * Set the cache driver
@@ -45,7 +45,7 @@ class Cache extends CacheDriver
     }
 
 
-    public static function destroy($key, $default = null): mixed
+    public static function destroy($key, $default = null): bool
     {
         return self::$cache_driver->get($key, $default);
     }
