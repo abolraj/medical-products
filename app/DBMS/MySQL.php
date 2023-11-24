@@ -9,14 +9,14 @@ class MySQL extends DBMS
      *
      * @var \PDO
      */
-    private static \PDO $pdo = null;
+    private static \PDO $pdo;
 
     /**
      * The PDOStatement for handling query results
      *
      * @var \PDOStatement
      */
-    private static \PDOStatement $pdo_statement = null;
+    private static \PDOStatement $pdo_statement;
 
     public static function connect(): bool
     {
