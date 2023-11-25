@@ -99,4 +99,27 @@ abstract class Model
             $where,
         );
     }
+
+    /**
+     * Returns all records in this entity
+     *
+     * @param array $attrs
+     * @return array
+     */
+    public static function all($attrs = ['*']): array
+    {
+        return DB::all(self::get_table_name(), $attrs);
+    }
+
+    /**
+     * Find the record by ID
+     *
+     * @param int $id
+     * @param array $attrs
+     * @return array
+     */
+    public static function find($id, $attrs = ['*']): array
+    {
+        return DB::find(self::get_table_name(), ['id = ' . $id], $attrs);
+    }
 }
