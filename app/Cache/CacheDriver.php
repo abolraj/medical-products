@@ -16,7 +16,7 @@ abstract class CacheDriver
      *
      * @var integer
      */
-    protected int $ttl = 3600;
+    protected static int $ttl = 3600;
 
     /**
      * Connect to the cache server
