@@ -3,6 +3,9 @@
 // Constants
 
 // Const - Directories
+
+use Dotenv\Dotenv;
+
 define('DIR_APP', DIR_ROOT . '/app');
 define('DIR_CONFIG', DIR_ROOT . '/config');
 define('DIR_DATABASE', DIR_ROOT . '/database');
@@ -22,6 +25,9 @@ function env($key, $default = null): mixed
 {
     return $_ENV[$key] ?? $default;
 }
+// Load the .env
+$dotenv = Dotenv::createImmutable(DIR_ROOT);
+$dotenv->load();
 
 
 /**
@@ -98,7 +104,7 @@ function path($unique_name, $storage_dir){
  * @return void
  */
 function view($path, $data = []){
-    $path = DIR_VIEWS . '/' . $path;
+    $path = DIR_VIEWS . '/' . $path . '.php';
     extract($data);
     require($path);
 }
