@@ -32,7 +32,7 @@ if (in_array('reset', $argv)) {
 if (!in_array('users', $tables)) {
     $q = 'CREATE TABLE `users` (
         `id` INT PRIMARY KEY AUTO_INCREMENT,
-        `username` VARCHAR(255) NOT NULL,
+        `username` VARCHAR(255) NOT NULL UNIQUE,
         `password` VARCHAR(32) NOT NULL,
         `phone` VARCHAR(20) NOT NULL,
         `created_at` DATETIME NOT NULL,
