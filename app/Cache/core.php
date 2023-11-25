@@ -2,9 +2,7 @@
 
 namespace Cache;
 require_once(DIR_APP . '/Cache/CacheDriver.php');
-require_once(DIR_APP . '/Cache/RedisDriver.php');
-require_once(DIR_APP . '/Cache/MemcachedDriver.php');
-require_once(DIR_APP . '/Cache/Cache.php');
+auto_require_scripts(DIR_APP . '/Cache', ['core', 'CacheDriver']);
 
 $cache_config = get_config('cache');
 // Config JSON Schema (Last Update)
