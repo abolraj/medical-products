@@ -108,3 +108,16 @@ function view($path, $data = []){
     extract($data);
     require($path);
 }
+
+/**
+ * Show the view in relevant path with data end extend basic layout
+ *
+ * @param string $main e.g. layout/main implies to path /views/layout/main.php will included
+ * @param array $data The data passed to the view
+ * @return void
+ */
+function render($main_path, $data = []){
+    $data = array_merge($data, ['_main_path' => $main_path]);
+    extract($data);
+    view('layout/layout', $data);
+}
