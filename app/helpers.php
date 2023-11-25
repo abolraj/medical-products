@@ -49,8 +49,8 @@ function auto_require_scripts($directory_pattern, $exclude = []) {
     $files = glob($directory_pattern . '/*.php');
     // Exclude files
     if(!empty($exclude)){
-        array_filter($files, function($file) use ($exclude){
-            return !in_array(pathinfo($file, PATHINFO_BASENAME), $exclude);
+        $files = array_filter($files, function($file) use ($exclude){
+            return !in_array(pathinfo($file, PATHINFO_FILENAME), $exclude);
         });
     }
     foreach($files as $file)
