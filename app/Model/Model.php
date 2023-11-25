@@ -1,5 +1,7 @@
 <?php
+
 namespace Model;
+
 use DB\DB;
 
 abstract class Model
@@ -10,6 +12,13 @@ abstract class Model
      * @var string
      */
     protected static string $table = '';
+
+    /**
+     * A history in the entity means the entity has created_at and updated_at columns in the table
+     *
+     * @var boolean
+     */
+    protected static bool $has_history = true;
 
     /**
      * Get table name
@@ -30,6 +39,8 @@ abstract class Model
      */
     public static function create($data)
     {
+        if (self::$has_history)
+            $data['created_at'] ??= date("Y-m-d H:i:s");
         DB::insert(
             self::get_table_name(),
             $data
@@ -65,6 +76,8 @@ abstract class Model
      */
     public static function update($data, $where)
     {
+        if (self::$has_history)
+            $data['updated_at'] ??= date("Y-m-d H:i:s");
         DB::update(
             self::get_table_name(),
             $data,
