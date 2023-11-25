@@ -89,3 +89,16 @@ function store($path, $storage_dir): string{
 function path($unique_name, $storage_dir){
     return DIR_STORAGE . $storage_dir . '/' . $unique_name;
 }
+
+/**
+ * Show the view in relevant path with data
+ *
+ * @param string $path e.g. layout/main implies to path /views/layout/main.php
+ * @param array $data The data passed to the view
+ * @return void
+ */
+function view($path, $data = []){
+    $path = DIR_VIEWS . '/' . $path;
+    extract($data);
+    require($path);
+}
