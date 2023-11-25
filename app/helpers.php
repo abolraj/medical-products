@@ -58,3 +58,32 @@ function auto_require_scripts($directory_pattern, $exclude = []) {
     foreach($files as $file)
         require_once($file);
 }
+
+// Storage functionalities 
+
+/**
+ * Store the file in the project storage with hashed name
+ *
+ * @param string $path The path of the file that will move
+ * @param string $storage_dir The director in storage e.g. /images (implies to storage/images)
+ * @return string
+ */
+function store($path, $storage_dir): string{
+    $file_info = pathinfo($path, PATHINFO_EXTENSION);
+    $unique_name = md5(file_get_contents($path));
+    $unique_name .= $file_info['extension'];
+    $detination_path =  DIR_STORAGE . $storage_dir . '/' . $unique_name;
+    move_uploaded_file($path, $detination_path);
+    return $unique_name;
+}
+
+/**
+ * Read the file from project storage and returns the path
+ *
+ * @param string $unique_name The unique name of the file
+ * @param string $storage_dir The director in storage e.g. /images (implies to storage/images)
+ * @return void
+ */
+function path($unique_name, $storage_dir){
+    return DIR_STORAGE . $storage_dir . '/' . $unique_name;
+}
