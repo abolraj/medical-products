@@ -47,6 +47,6 @@ class Cache extends CacheDriver
 
     public static function destroy($key, $default = null): bool
     {
-        return static::$cache_driver::get($key, $default);
+        return static::$cache_driver::destroy($key, $default);
     }
 }
