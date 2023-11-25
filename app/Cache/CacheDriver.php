@@ -40,9 +40,9 @@ abstract class CacheDriver
      */
     public static function config($settings): array
     {
-        self::$settings = $settings;
+        static::$settings = $settings;
 
-        return self::$settings;
+        return static::$settings;
     }
 
     /**
@@ -81,11 +81,11 @@ abstract class CacheDriver
      */
     public static function pop($key, $default = null): string | bool
     {
-        $value = self::get($key, $default);
+        $value = static::get($key, $default);
         if ($value === false)
             return false;
 
-        self::destroy($key);
+        static::destroy($key);
         return $value;
     }
 }

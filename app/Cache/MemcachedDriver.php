@@ -7,30 +7,30 @@ class MemcachedDriver extends CacheDriver
     private static \Memcached $memcached;
     public static function connect(): bool
     {
-        self::$memcached = new \Memcached;
-        return self::$memcached->addServer(self::$settings['host'], self::$settings['port']);
+        static::$memcached = new \Memcached;
+        return static::$memcached->addServer(static::$settings['host'], static::$settings['port']);
     }
 
     public static function disconnect(): bool
     {
-        return self::$memcached->quit();
+        return static::$memcached->quit();
     }
 
     public static function get($key, $default = null): mixed
     {
-        $value = self::$memcached->get($key);
-        if(self::$memcached->getResultCode() === \Memcached::RES_NOTFOUND)
+        $value = static::$memcached->get($key);
+        if(static::$memcached->getResultCode() === \Memcached::RES_NOTFOUND)
             return $default;
         return $value;
     }
 
     public static function set($key, $value, $time_to_live = null): bool
     {
-        return self::$memcached->set($key, $value, $time_to_live);
+        return static::$memcached->set($key, $value, $time_to_live);
     }
 
     public static function destroy($key): bool
     {
-        return self::$memcached->delete($key);
+        return static::$memcached->delete($key);
     }
 }

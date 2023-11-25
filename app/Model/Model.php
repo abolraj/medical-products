@@ -27,7 +27,7 @@ abstract class Model
      */
     public static function get_table_name(): string
     {
-        return self::$table;
+        return static::$table;
     }
 
     /**
@@ -39,10 +39,10 @@ abstract class Model
      */
     public static function create($data)
     {
-        if (self::$has_history)
-            $data['created_at'] ??= date("Y-m-d H:i:s");
+        if (static::$has_history)
+            $data['created_at'] = $data['created_at'] ?? date("Y-m-d H:i:s");
         DB::insert(
-            self::get_table_name(),
+            static::get_table_name(),
             $data
         );
     }
@@ -59,7 +59,7 @@ abstract class Model
     public static function read($attrs, $where, $args = []): array
     {
         return DB::select(
-            self::get_table_name(),
+            static::get_table_name(),
             $where,
             $attrs,
             $args,
@@ -76,10 +76,10 @@ abstract class Model
      */
     public static function update($data, $where)
     {
-        if (self::$has_history)
-            $data['updated_at'] ??= date("Y-m-d H:i:s");
+        if (static::$has_history)
+            $data['updated_at'] = $data['updated_at'] ?? date("Y-m-d H:i:s");
         DB::update(
-            self::get_table_name(),
+            static::get_table_name(),
             $data,
             $where,
         );
@@ -95,7 +95,7 @@ abstract class Model
     public static function delete($where)
     {
         DB::delete(
-            self::get_table_name(),
+            static::get_table_name(),
             $where,
         );
     }
@@ -108,7 +108,7 @@ abstract class Model
      */
     public static function all($attrs = ['*']): array
     {
-        return DB::all(self::get_table_name(), $attrs);
+        return DB::all(static::get_table_name(), $attrs);
     }
 
     /**
@@ -120,6 +120,6 @@ abstract class Model
      */
     public static function find($id, $attrs = ['*']): array
     {
-        return DB::find(self::get_table_name(), ['id = ' . $id], $attrs);
+        return DB::find(static::get_table_name(), ['id = ' . $id], $attrs);
     }
 }

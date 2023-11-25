@@ -41,19 +41,19 @@ abstract class DBMS
 
     public static function config($settings): array
     {
-        self::$settings = $settings;
-        self::$host = self::$settings['host'];
-        self::$username = self::$settings['username'];
-        self::$password = self::$settings['password'];
+        static::$settings = $settings;
+        static::$host = static::$settings['host'];
+        static::$username = static::$settings['username'];
+        static::$password = static::$settings['password'];
 
-        return self::$settings;
+        return static::$settings;
     }
 
     public static function set_db($db_name): string
     {
-        self::$db_name = $db_name;
+        static::$db_name = $db_name;
 
-        return self::$db_name;
+        return static::$db_name;
     }
 
 

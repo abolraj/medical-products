@@ -20,33 +20,33 @@ class Cache extends CacheDriver
      */
     public static function set_cache_driver($cache_driver)
     {
-        self::$cache_driver = $cache_driver;
+        static::$cache_driver = $cache_driver;
     }
 
     public static function connect(): bool
     {
-        return self::$cache_driver->connect();
+        return static::$cache_driver->connect();
     }
 
     public static function disconnect(): bool
     {
-        return self::$cache_driver->disconnect();
+        return static::$cache_driver->disconnect();
     }
 
 
     public static function get($key, $default = null): mixed
     {
-        return self::$cache_driver->get($key, $default);
+        return static::$cache_driver->get($key, $default);
     }
 
     public static function set($key, $value, $time_to_live = null): bool
     {
-        return self::$cache_driver->set($key, $value, $time_to_live);
+        return static::$cache_driver->set($key, $value, $time_to_live);
     }
 
 
     public static function destroy($key, $default = null): bool
     {
-        return self::$cache_driver->get($key, $default);
+        return static::$cache_driver->get($key, $default);
     }
 }

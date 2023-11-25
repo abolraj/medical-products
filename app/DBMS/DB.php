@@ -19,33 +19,32 @@ class DB extends DBMS
      */
     public static function set_dbms($dbms)
     {
-        self::$dbms = $dbms;
+        static::$dbms = $dbms;
     }
 
     public static function connect(): bool
     {
-        return self::$dbms::connect();
+        return static::$dbms::connect();
     }
 
     public static function disconnect(): bool
     {
-        return self::$dbms::disconnect();
+        return static::$dbms::disconnect();
     }
 
     public static function query($query)
     {
-        echo "Q:$query\n";
-        return self::$dbms::query($query);
+        return static::$dbms::query($query);
     }
 
     public static function fetch($is_assoc = true): array
     {
-        return self::$dbms::fetch($is_assoc);
+        return static::$dbms::fetch($is_assoc);
     }
 
     public static function fetch_all($is_assoc = true): array
     {
-        return self::$dbms::fetch_all($is_assoc);
+        return static::$dbms::fetch_all($is_assoc);
     }
 
         /**
@@ -99,11 +98,11 @@ class DB extends DBMS
     {
 
 
-        self::query(sprintf(
+        static::query(sprintf(
             'INSERT INTO `%s` (%s) VALUES (%s)',
             $table,
-            implode(',', self::filter_sql_names(array_keys($data))),
-            implode(',', self::filter_sql_values(array_values($data))),
+            implode(',', static::filter_sql_names(array_keys($data))),
+            implode(',', static::filter_sql_values(array_values($data))),
         ));
     }
 
@@ -119,7 +118,7 @@ class DB extends DBMS
      */
     public static function select($table, $where, $attrs = ['*'], $args = []): array
     {
-        $attrs = self::filter_sql_names($attrs, ['*']);
+        $attrs = static::filter_sql_names($attrs, ['*']);
         $args_query = '';
 
         // Order by statement
@@ -139,7 +138,7 @@ class DB extends DBMS
             $args_query .= $args['limit'];
         }
 
-        self::query(sprintf(
+        static::query(sprintf(
             'SELECT %s FROM `%s` WHERE (%s) %s',
             implode(',', $attrs),
             $table,
@@ -147,7 +146,7 @@ class DB extends DBMS
             $args_query,
         ));
 
-        return self::fetch_all();
+        return static::fetch_all();
     }
 
 
@@ -162,8 +161,8 @@ class DB extends DBMS
      */
     public static function update($table, $data, $where)
     {
-        $set_keys = self::filter_sql_names(array_keys($data));
-        $set_values = self::filter_sql_values(array_values($data));
+        $set_keys = static::filter_sql_names(array_keys($data));
+        $set_values = static::filter_sql_values(array_values($data));
         $set_count = count($data);
         $set = '';
         for($i = 0; $i < $set_count; $i++) {
@@ -171,7 +170,7 @@ class DB extends DBMS
         }
         $set = rtrim($set, ',');
 
-        self::query(sprintf(
+        static::query(sprintf(
             'UPDATE `%s` SET %s WHERE (%s)',
             $table,
             $set,
@@ -189,7 +188,7 @@ class DB extends DBMS
      */
     public static function delete($table, $where)
     {
-        self::query(sprintf(
+        static::query(sprintf(
             'DELETE FROM `%s` WHERE (%s)',
             $table,
             implode(',', $where),
@@ -205,17 +204,18 @@ class DB extends DBMS
      * @param integer $offset Offset the row to select
      * @return array Returns related row as an assocciatvie array
      */
-    public static function find($table, $where, $attrs = ['*'], $offset = 1): array
+    public static function find($table, $where, $attrs = ['*'], $offset = 0): array
     {
-        $attrs = self::filter_sql_names($attrs, ['*']);
-        self::query(sprintf(
+        $attrs = static::filter_sql_names($attrs, ['*']);
+        static::query(sprintf(
             'SELECT %s FROM `%s` WHERE (%s) LIMIT %s,1',
             implode(',', $attrs),
             $table,
+            implode(',', $where),
             $offset,
         ));
 
-        return self::fetch();
+        return static::fetch();
     }
 
     /**
@@ -227,14 +227,14 @@ class DB extends DBMS
      */
     public static function all($table, $attrs = ['*']): array
     {
-        $attrs = self::filter_sql_names($attrs, ['*']);
+        $attrs = static::filter_sql_names($attrs, ['*']);
         
-        self::query(sprintf(
+        static::query(sprintf(
             'SELECT %s FROM `%s`',
             implode(',', $attrs),
             $table
         ));
 
-        return self::fetch_all();
+        return static::fetch_all();
     }
 }

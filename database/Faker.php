@@ -1,5 +1,5 @@
 <?php
-namespace Faker;
+namespace DB\Faker;
 use \Faker\Factory;
 use \Faker\Generator;
 
@@ -7,7 +7,7 @@ abstract class Faker {
     protected static string $locale = 'en_US';
 
     protected static function create_faker($locale = null): Generator {
-        return Factory::create($locale ?: self::$locale ?: Factory::DEFAULT_LOCALE);
+        return Factory::create($locale ?: static::$locale ?: Factory::DEFAULT_LOCALE);
     }
 
     /**
