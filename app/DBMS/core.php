@@ -1,8 +1,7 @@
 <?php
 namespace DB;
 require_once(DIR_APP . '/DBMS/DBMS.php');
-require_once(DIR_APP . '/DBMS/MySQL.php');
-require_once(DIR_APP . '/DBMS/DB.php');
+auto_require_scripts(DIR_APP . '/DBMS', ['core', 'DBMS']);
 
 $db_config = get_config('database');
 // Config JSON Schema (Last Update)
