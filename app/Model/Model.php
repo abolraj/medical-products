@@ -39,6 +39,9 @@ abstract class Model
      */
     public static function create($data)
     {
+        if(empty($data))
+            return;
+        
         if (static::$has_history)
             $data['created_at'] = $data['created_at'] ?? date("Y-m-d H:i:s");
         DB::insert(
