@@ -23,7 +23,7 @@ echo "Booting Database ...\n";
 // Reset the database
 if (in_array('reset', $argv)) {
     echo "Resetting Database ...";
-    foreach ($tables as $table)
+    while ($table = array_shift($tables))
         DB::query("DROP TABLE " . $table);
     echo "Ok\n";
 }
@@ -60,9 +60,10 @@ if (!in_array('products', $tables)) {
 if (!in_array('offers', $tables)) {
     $q = 'CREATE TABLE `offers` (
         `id` INT PRIMARY KEY AUTO_INCREMENT,
-        `product_id` INT NOT NULL,
+        `product_id` INT UNIQUE,
         `value` DECIMAL(10,2) NOT NULL,
         FOREIGN KEY (product_id) REFERENCES products(id),
+        `expired_at` DATETIME,
         `created_at` DATETIME NOT NULL,
         `updated_at` DATETIME
     );';
