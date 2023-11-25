@@ -8,8 +8,7 @@ class UserFaker extends Faker {
         return [
             'username' => $faker->userName(),
             'password' => md5('123456'),
-            'phone' => $faker->phoneNumber(),
+            'phone' => $faker->e164PhoneNumber(),
         ];
     }
 }
-echo "User Faker: Loaded";
