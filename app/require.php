@@ -8,15 +8,14 @@ require_once(DIR_ROOT . '/vendor/autoload.php');
 require_once(DIR_ROOT . '/app/helpers.php');
 
 // Cache
-auto_require_scripts(DIR_ROOT . '/app/Cache/*', ['core']);
 require_once(DIR_ROOT . '/app/Cache/core.php');
 
 // DBMS
-auto_require_scripts(DIR_ROOT . '/app/DBMS/*', ['core']);
 require_once(DIR_ROOT . '/app/DBMS/core.php');
 
 // Model
-auto_require_scripts(DIR_ROOT . '/app/Model/*');
+require_once(DIR_ROOT . '/app/Model/Model.php');
+auto_require_scripts(DIR_ROOT . '/app/Model', ['Model']);
 
 
 
