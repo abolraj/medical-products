@@ -1,5 +1,5 @@
 <?php
 namespace Model;
 class Order extends Model {
-    private static string $table = 'orders';
+    protected static string $table = 'orders';
 }

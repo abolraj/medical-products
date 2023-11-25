@@ -1,6 +1,6 @@
 <?php
 namespace Model;
 class Product extends Model {
-    private static string $table = 'products';
+    protected static string $table = 'products';
 
 }
