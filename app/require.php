@@ -16,11 +16,3 @@ require_once(DIR_ROOT . '/app/DBMS/core.php');
 // Model
 require_once(DIR_ROOT . '/app/Model/Model.php');
 auto_require_scripts(DIR_ROOT . '/app/Model', ['Model']);
-
-
-
-// Initialize Dependencies
-
-// Load envirnoment variables
-$dot_env = \Dotenv\Dotenv::createImmutable(DIR_ROOT);
-$dot_env->load();
