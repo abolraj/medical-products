@@ -47,14 +47,12 @@ function get_config($config_name): array
  */
 function auto_require_scripts($directory_pattern, $exclude = []) {
     $files = glob($directory_pattern . '/*.php');
-    
     // Exclude files
     if(!empty($exclude)){
-        $exclude_p = implode('|', $exclude);
-        $exclude_p = "(".$exclude_p.")\.php$";
-        $files = preg_grep("/$exclude_p/", $files, PREG_GREP_INVERT);
+        array_filter($files, function($file) use ($exclude){
+            return !in_array(pathinfo($file, PATHINFO_BASENAME), $exclude);
+        });
     }
-
     foreach($files as $file)
         require_once($file);
 }
@@ -69,11 +67,15 @@ function auto_require_scripts($directory_pattern, $exclude = []) {
  * @return string
  */
 function store($path, $storage_dir): string{
-    $file_info = pathinfo($path, PATHINFO_EXTENSION);
+    $file_info = pathinfo($path);
     $unique_name = md5(file_get_contents($path));
-    $unique_name .= $file_info['extension'];
-    $detination_path =  DIR_STORAGE . $storage_dir . '/' . $unique_name;
-    move_uploaded_file($path, $detination_path);
+    $unique_name .= '.'.$file_info['extension'];
+    $dir = DIR_STORAGE . $storage_dir;
+    if(!file_exists($dir)){
+        mkdir($dir, 0777, true);
+    }
+    $detination_path =  $dir . '/' . $unique_name;
+    copy($path, $detination_path);
     return $unique_name;
 }
 
