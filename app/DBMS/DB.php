@@ -34,15 +34,20 @@ class DB extends DBMS
 
     public static function query($query)
     {
-        return static::$dbms::query($query);
+        try{
+            return static::$dbms::query($query);
+        }catch(\Exception $e){
+            $msg = sprintf('Query:{%s} Message:{%s}', $query, $e->getMessage());
+            report($msg, 'DB Error');
+        }
     }
 
-    public static function fetch($is_assoc = true): array
+    public static function fetch($is_assoc = true): array|bool
     {
         return static::$dbms::fetch($is_assoc);
     }
 
-    public static function fetch_all($is_assoc = true): array
+    public static function fetch_all($is_assoc = true): array|bool
     {
         return static::$dbms::fetch_all($is_assoc);
     }
@@ -202,9 +207,9 @@ class DB extends DBMS
      * @param array $where Conditions
      * @param array $attrs Output columns
      * @param integer $offset Offset the row to select
-     * @return array Returns related row as an assocciatvie array
+     * @return array|bool Returns related row as an assocciatvie array
      */
-    public static function find($table, $where, $attrs = ['*'], $offset = 0): array
+    public static function find($table, $where, $attrs = ['*'], $offset = 0): array|bool
     {
         $attrs = static::filter_sql_names($attrs, ['*']);
         static::query(sprintf(
