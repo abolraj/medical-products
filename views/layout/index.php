@@ -12,7 +12,7 @@
     <script src="<?=get_asset('/scripts/jquery-3.7.1.min.js')?>"></script>
 </head>
 
-<body>
+<body class="min-h-screen">
     <!-- handle loading -->
     <?= view('layout/loading', $data)?>
     <?= view($has_layout ? 'layout/layout' : $main_path, $data)?>
