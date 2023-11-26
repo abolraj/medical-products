@@ -3,6 +3,13 @@
 </section>
 <script>
     $(document).ready(() => {
-        $('#loader').hide()
+        $('#loader').animate({
+            opacity: '0.0',
+        },{
+            complete(){
+                $('#loader').hide()
+            }
+        })
+
     })
 </script>
