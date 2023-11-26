@@ -83,9 +83,9 @@ abstract class DBMS
      * Fetchs all the rows that executed by query function
      *
      * @param boolean $is_assoc True = associative array or False = indexed array
-     * @return array Returns all rows selected or outputted by Database query
+     * @return array|bool Returns all rows selected or outputted by Database query or false on empty
      */
-    abstract public static function fetch_all($is_assoc = true): array;
+    abstract public static function fetch_all($is_assoc = true): array|bool;
 
     /**
      * Fetchs the row that executed by query function, you can get next row by call it again or false on no next row

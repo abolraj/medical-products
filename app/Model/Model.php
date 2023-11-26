@@ -57,9 +57,9 @@ abstract class Model
      * @param array $attrs
      * @param array $where
      * @param array $args
-     * @return array
+     * @return array|bool
      */
-    public static function read($attrs, $where, $args = []): array
+    public static function read($attrs, $where, $args = []): array|bool
     {
         return DB::select(
             static::get_table_name(),
@@ -107,9 +107,9 @@ abstract class Model
      * Returns all records in this entity
      *
      * @param array $attrs
-     * @return array
+     * @return array|bool
      */
-    public static function all($attrs = ['*']): array
+    public static function all($attrs = ['*']): array|bool
     {
         return DB::all(static::get_table_name(), $attrs);
     }
@@ -119,9 +119,9 @@ abstract class Model
      *
      * @param int $id
      * @param array $attrs
-     * @return array
+     * @return array|bool
      */
-    public static function find($id, $attrs = ['*']): array
+    public static function find($id, $attrs = ['*']): array|bool
     {
         return DB::find(static::get_table_name(), ['id = ' . $id], $attrs);
     }
