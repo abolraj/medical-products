@@ -1,6 +1,7 @@
 .env
 vendor/
 storage/*
+public/storage/*
 .vscode/
 composer.lock
 *.log
