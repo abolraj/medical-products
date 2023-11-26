@@ -4,6 +4,7 @@
 
 // Const - Directories
 
+use Cache\Cache;
 use Dotenv\Dotenv;
 use Model\User;
 use Pecee\SimpleRouter\SimpleRouter as Router;
@@ -19,6 +20,7 @@ define('DIR_ROUTES', DIR_ROOT . '/routes');
 define('DIR_STORAGE', DIR_ROOT . '/storage');
 define('DIR_VIEWS', DIR_ROOT . '/views');
 
+
 /**
  * Get the environment variable
  *
@@ -33,6 +35,9 @@ function env($key, $default = null): mixed
 // Load the .env
 $dotenv = Dotenv::createImmutable(DIR_ROOT);
 $dotenv->load();
+
+define('CACHE_ENABLED', env('CACHE_ENABLED', 0));
+define('DEBUG_MODE', env('DEBUG_MODE', 0));
 
 
 /**
@@ -99,9 +104,10 @@ function store($path, $storage_dir): string
  * @param string $storage_dir The director in storage e.g. /images (implies to storage/images)
  * @return void
  */
-function path($unique_name, $storage_dir)
+function path($unique_name, $storage_dir, $is_web_server = true)
 {
-    return DIR_STORAGE . $storage_dir . '/' . $unique_name;
+    $dir = $is_web_server ? '/storage' : DIR_STORAGE;
+    return $dir . $storage_dir . '/' . $unique_name;
 }
 
 /**
@@ -115,7 +121,61 @@ function view($path, $data = [])
 {
     $path = DIR_VIEWS . '/' . $path . '.php';
     extract($data);
+    if (CACHE_ENABLED) {
+        $depends = [$path, $data];
+        $cache_value = cache_get('view', null, $depends);
+        if ($cache_value) {
+            echo $cache_value;
+        } else {
+            ob_start();
+            require($path);
+            $cache_value = ob_get_flush();
+            cache_set('view', $cache_value, 60, $depends);
+        }
+        return;
+    }
     require($path);
+}
+
+/**
+ * Get the cache key from tag and dependencies
+ *
+ * @param string $tag
+ * @param mixed $depends
+ * @return string
+ */
+function cache_key($tag, $depends): string
+{
+    return $tag . '_' . md5(serialize($depends));
+}
+
+/**
+ * Get the cached value by tag and dependencies
+ *
+ * @param string $tag
+ * @param mixed $default
+ * @param mixed ...$depends
+ * @return mixed
+ */
+function cache_get($tag, $default = null, ...$depends): mixed
+{
+    $cache_key = cache_key($tag, $depends);
+    return Cache::get($cache_key) ?: $default;
+}
+
+/**
+ * Set the cache with tag and dependencies
+ *
+ * @param string $tag
+ * @param mixed $value
+ * @param integer $ttl
+ * @param mixed ...$depends
+ * @return void
+ */
+function cache_set($tag, $value, $ttl = 60, ...$depends)
+{
+    $cache_key = cache_key($tag, $depends);
+    Cache::set($cache_key, $value, $ttl);
 }
 
 /**
@@ -199,6 +259,12 @@ function user($key = null): mixed
     return $user
         ? ($key ? $user[$key] : $user)
         : $user;
+}
+
+function user_orders($id = null)
+{
+    $id = $id ?: user('id');
+    return User::orders($id);
 }
 
 /**
