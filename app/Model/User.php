@@ -39,17 +39,16 @@ class User extends Model
     public static function login($username, $password): array|bool
     {
         $hashed_password = md5($password);
-        $user = User::read(['*'], ["`username` = '$username'","`password` = '$hashed_password'"]);
-        if(!$user)
+        $user = User::read(['*'], ["`username` = '$username'", "`password` = '$hashed_password'"]);
+        if (!$user)
             return false;
-
         $cookie_data =  [
             'id' => $user['id'],
         ];
 
-        setcookie(static::get_cookie_key(), base64_encode(json_encode($cookie_data)), time() + 60 * 60 * 24 * 30);
+        setcookie(static::get_cookie_key(), base64_encode(json_encode($cookie_data)), time() + 60 * 60 * 24 * 30, '/');
         return $user;
-    } 
+    }
 
     /**
      * Sign Up the user
@@ -57,12 +56,13 @@ class User extends Model
      * @param array $data
      * @return array|boolean
      */
-    public static function signup($data): array|bool{
+    public static function signup($data): array|bool
+    {
         $username = $data['username'];
         $hashed_password = md5($data['password']);
 
         // The username already exists
-        if(User::read(['1'], ["username = $username"]))
+        if (User::read(['id'], ["`username` = '$username'"]))
             return false;
 
         User::create([
@@ -71,7 +71,6 @@ class User extends Model
             'phone' => $data['phone'],
         ]);
 
-        return User::read(['*'], ["username = $username"]);
+        return User::read(['*'], ["`username` = '$username'"]);
     }
-
 }
