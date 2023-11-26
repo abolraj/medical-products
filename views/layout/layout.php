@@ -1,15 +1,8 @@
-<header>
-    <?= view('layout/header', $data) ?>
-</header>
-
-<main>
-    <?= view($main_path ?? 'layout/main', $data) ?>
-</main>
-
-<aside>
-    <?= view('layout/sidebar', $data) ?>
-</aside>
-
-<footer>
-    <?= view('layout/footer', $data) ?>
-</footer>
+<!-- header -->
+<?= view('layout/header', $data) ?>
+<!-- main -->
+<?= view($main_path ?? 'layout/main', $data) ?>
+<!-- sidebar -->
+<?= view('layout/sidebar', $data) ?>
+<!-- footer -->
+<?= view('layout/footer', $data) ?>
