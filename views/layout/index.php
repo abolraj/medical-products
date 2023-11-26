@@ -10,6 +10,7 @@
     <link href="<?=get_asset('/styles/styles.css')?>" rel="stylesheet" type="text/css" />
     <script src="<?=get_asset('/scripts/tailwind-script.js')?>"></script>
     <script src="<?=get_asset('/scripts/jquery-3.7.1.min.js')?>"></script>
+    <script src="<?=get_asset('/scripts/scripts.js')?>" defer></script>
 </head>
 
 <body class="min-h-screen">
