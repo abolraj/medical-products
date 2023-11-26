@@ -208,7 +208,7 @@ function user($key = null): mixed
  * @param string $type
  * @return void
  */
-function log($message, $type = 'info')
+function report($message, $type = 'info')
 {
     $log_file = DIR_ROOT . '/live.log';
     $log_content = '[' . date('Y-m-d H:i:s') . '] ' . strtoupper($type) . ': ' . $message . "\n";
