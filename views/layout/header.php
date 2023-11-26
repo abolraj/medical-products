@@ -16,14 +16,14 @@
                             $unpaid_orders = array_filter($orders, fn($order)=>!$order['is_paid']);
                             $total_price = array_sum(array_column($unpaid_orders, 'total_price'))
                             ?>
-                            <span class="badge badge-sm indicator-item rounded-full"><?=count($unpaid_orders)?></span>
+                            <span class="user-orders-count badge badge-sm indicator-item rounded-full"><?=count($unpaid_orders)?></span>
                         <?php endif;?>
                     </div>
                 </label>
                 <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                     <div class="card-body">
                         <span class="font-bold text-lg"><?=count($unpaid_orders)?> Items</span>
-                        <span class="text-info">Total: <?=$total_price?>$</span>
+                        <span class="text-info">Total: <span class="user-orders-count"><?=$total_price?></span>$</span>
                         <div class="card-actions">
                             <button class="btn btn-primary btn-block">View cart</button>
                         </div>
