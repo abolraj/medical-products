@@ -16,3 +16,6 @@ require_once(DIR_ROOT . '/app/DBMS/core.php');
 // Model
 require_once(DIR_ROOT . '/app/Model/Model.php');
 auto_require_scripts(DIR_ROOT . '/app/Model', ['Model']);
+
+// HTTP Middlewares
+auto_require_scripts(DIR_ROOT . '/app/HTTP/Middleware');
