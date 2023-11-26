@@ -1,6 +1,8 @@
 <?php
 
+use Http\Middleware\AuthMiddleware;
 use Http\Middleware\GuestMiddleware;
+use Model\Order;
 use Model\Product;
 use Model\User;
 use Pecee\Http\Request;
@@ -9,15 +11,39 @@ use Pecee\SimpleRouter\SimpleRouter as Router;
 // Add your routes here
 
 // Home - Landing
-Router::get('/', function(){
+Router::get('/', function () {
     render('layout/main');
 })->name('home');
 
 // Products
-Router::group(['prefix'=>'/products'], function(){
-    Router::get('/', function(){
-        render('products/list', ['products' => Product::all()]);
+Router::group(['prefix' => '/products'], function () {
+    // List all
+    Router::get('/', function () {
+        render('products/list', ['products' => Product::all(), 'user'=>user()]);
     })->name('products.list');
+    // Pay
+    Router::post('/{id}/pay', function ($product_id) {
+        $product = Product::find($product_id);
+        $user = User::find($_POST['user_id']);
+
+        if ($user && $product) {
+            if (Order::take_order($product, $user, $_POST['quantity']))
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Payment successful !',
+                ]);
+            else
+                return response()->httpCode(401)->json([
+                    'code' => 401,
+                    'message' => 'Taking order failed !',
+                ]);
+        } else {
+            return response()->httpCode(401)->json([
+                'code' => 401,
+                'message' => 'The user or product does not exist !',
+            ]);
+        }
+    });
 });
 
 // Authentication
@@ -37,18 +63,18 @@ Router::group(['middleware' => GuestMiddleware::class], function () {
         }
     })->name('auth.signin');
     // Register
-    Router::get('/register', function(){
+    Router::get('/register', function () {
         render('auth/register');
     })->name('auth.register');
     // Sign-up
-    Router::post('/sign-up', function(){
+    Router::post('/sign-up', function () {
         // The username already exists
-        if (User::read(['id'], ["`username` = '".$_POST['username']."'"])){
+        if (User::read(['id'], ["`username` = '" . $_POST['username'] . "'"])) {
             set_temp_data('error_message', 'The user already exists !');
             return response()->redirect(url('auth.register'));
         }
-        
-        if($_POST['confirm-password'] !== $_POST['password']){
+
+        if ($_POST['confirm-password'] !== $_POST['password']) {
             set_temp_data('error_message', 'Passwords are not equal !');
             return response()->redirect(url('auth.register'));
         }
