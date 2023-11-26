@@ -11,6 +11,8 @@ class DB extends DBMS
      */
     private static string $dbms;
 
+    private static string $current_query;
+
     /**
      * Set the DBMS class
      *
@@ -34,7 +36,15 @@ class DB extends DBMS
 
     public static function query($query)
     {
+        self::$current_query = $query;
         try{
+            if(CACHE_ENABLED){
+                $cache_value = cache_get('db_fetch', null, $query) || cache_get('db_fetch_all', null, $query);
+                if($cache_value){
+                    // Do not query when is cached
+                    return;
+                }
+            }
             return static::$dbms::query($query);
         }catch(\Exception $e){
             $msg = sprintf('Query:{%s} Message:{%s}', $query, $e->getMessage());
@@ -44,11 +54,31 @@ class DB extends DBMS
 
     public static function fetch($is_assoc = true): array|bool
     {
+        if(CACHE_ENABLED){
+            $cache_value = cache_get('db_fetch', null, self::$current_query);
+            if($cache_value){
+                return $cache_value;
+            }else{
+                $cache_value = static::$dbms::fetch($is_assoc);
+                cache_set('db_fetch', $cache_value, 60, self::$current_query);
+                return $cache_value;
+            }
+        }
         return static::$dbms::fetch($is_assoc);
     }
 
     public static function fetch_all($is_assoc = true): array|bool
     {
+        if(CACHE_ENABLED){
+            $cache_value = cache_get('db_fetch_all', null, self::$current_query);
+            if($cache_value){
+                return $cache_value;
+            }else{
+                $cache_value = static::$dbms::fetch_all($is_assoc);
+                cache_set('db_fetch_all', $cache_value, 60, self::$current_query);
+                return $cache_value;
+            }
+        }
         return static::$dbms::fetch_all($is_assoc);
     }
 
