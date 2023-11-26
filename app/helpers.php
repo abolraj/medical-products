@@ -134,11 +134,12 @@ function render($main_path, $data = [], $has_layout = true){
  * Set the temporary data
  *
  * @param string $key
- * @param string $value
+ * @param mixed $value
  * @param integer $ttl
  * @return void
  */
 function set_temp_data($key, $value, $ttl = 60){
+    $value = serialize($value);
     $en_value = base64_encode($value);
     $hashed_key = md5(env('APP_NAME','APP_NAME') . $key);
     
@@ -158,6 +159,7 @@ function get_temp_data($key, $default = null, $pop = false): mixed{
     if(!isset($_COOKIE[$hashed_key]))
         return $default;
     $value = base64_decode($_COOKIE[$hashed_key]);
+    $value = unserialize($value);
     if($pop){
         unset($_COOKIE[$hashed_key]);
         setcookie($hashed_key, null, time()-3600, '/');
