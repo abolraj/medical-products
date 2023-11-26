@@ -142,7 +142,7 @@ class DB extends DBMS
             'SELECT %s FROM `%s` WHERE (%s) %s',
             implode(',', $attrs),
             $table,
-            implode(',', $where),
+            implode(' AND ', $where),
             $args_query,
         ));
 
@@ -174,7 +174,7 @@ class DB extends DBMS
             'UPDATE `%s` SET %s WHERE (%s)',
             $table,
             $set,
-            implode(',', $where),
+            implode(' AND ', $where),
         ));
     }
 
@@ -191,7 +191,7 @@ class DB extends DBMS
         static::query(sprintf(
             'DELETE FROM `%s` WHERE (%s)',
             $table,
-            implode(',', $where),
+            implode(' AND ', $where),
         ));
     }
 
@@ -211,7 +211,7 @@ class DB extends DBMS
             'SELECT %s FROM `%s` WHERE (%s) LIMIT %s,1',
             implode(',', $attrs),
             $table,
-            implode(',', $where),
+            implode(' AND ', $where),
             $offset,
         ));
 
