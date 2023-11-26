@@ -7,6 +7,11 @@ use Pecee\SimpleRouter\SimpleRouter as Router;
 
 // Add your routes here
 
+// Home - Landing
+Router::get('/', function(){
+    render('layout/main');
+})->name('home');
+
 // Authentication
 Router::group(['middleware' => GuestMiddleware::class], function () {
     // Login
@@ -50,7 +55,6 @@ Router::group(['middleware' => GuestMiddleware::class], function () {
         return response()->redirect(url('auth.login'));
     })->name('auth.signup');
 });
-
 
 Router::get('/404', function () {
     render('layout/404', [], 0);
