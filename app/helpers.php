@@ -126,9 +126,21 @@ function render($main_path, $data = [], $has_layout = true){
         'main_path' => $main_path,
         'has_layout' => $has_layout,
     ]);
+    $data = array_merge($data, ['data' => $data]);
     view('layout/index', $data);
 }
 
+function set_temp_data($key, $value, $ttl = 60){
+    $en_value = base64_encode($value);
+    $en_key = base64_encode(env('APP_NAME','APP_NAME') . $key);
+    
+    setcookie($en_key, $en_value, time() + $ttl);
+}
+
+function get_temp_data($key, $default){
+    $en_key = base64_encode(env('APP_NAME','APP_NAME') . $key);
+    return base64_decode($_COOKIE[$en_key]);
+}
 
 /**
  * The helper functions for router
