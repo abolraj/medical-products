@@ -22,7 +22,7 @@
                 </label>
                 <input type="password" name="password" placeholder="Enter Password" minlength="6" id="password" class="w-full input input-bordered input-primary" required />
             </div>
-            <a href="#" class="text-xs text-gray-600 hover:underline hover:text-blue-600">Forget Password?</a>
+            <!-- <a href="#" class="text-xs text-gray-600 hover:underline hover:text-blue-600">Forget Password?</a> -->
             <div>
                 <button class="btn btn-primary w-full">Login</button>
             </div>
