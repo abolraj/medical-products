@@ -130,6 +130,14 @@ function render($main_path, $data = [], $has_layout = true){
     view('layout/index', $data);
 }
 
+/**
+ * Set the temporary data
+ *
+ * @param string $key
+ * @param string $value
+ * @param integer $ttl
+ * @return void
+ */
 function set_temp_data($key, $value, $ttl = 60){
     $en_value = base64_encode($value);
     $en_key = base64_encode(env('APP_NAME','APP_NAME') . $key);
@@ -137,10 +145,36 @@ function set_temp_data($key, $value, $ttl = 60){
     setcookie($en_key, $en_value, time() + $ttl);
 }
 
-function get_temp_data($key, $default){
+/**
+ * Get the temporary data
+ *
+ * @param string $key
+ * @param string $default
+ * @param bool $pop True, will delete the data after getting
+ * @return void
+ */
+function get_temp_data($key, $default = null, $pop = false){
     $en_key = base64_encode(env('APP_NAME','APP_NAME') . $key);
-    return base64_decode($_COOKIE[$en_key]);
+    if(!isset($_COOKIE[$en_key]))
+        return $default;
+    $value = base64_decode($_COOKIE[$en_key]);
+    if($pop)
+        setcookie($en_key, null, time()-60);
+    return $value;
 }
+
+/**
+ * Retrieve and delete the data
+ *
+ * @param string $key
+ * @param string $default
+ * @return void
+ */
+function pop_temp_data($key, $default = null){
+    return get_temp_data($key, $default, true);
+}
+
+
 
 /**
  * The helper functions for router
