@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use Exception;
+
 class Order extends Model
 {
     protected static string $table = 'orders';
@@ -13,15 +15,22 @@ class Order extends Model
         }
         $product['quantity'] -= $quantity;
 
-        static::create([
-            'product_id' => $user['id'],
-            'user_id' => $product['id'],
-            'quantity' => $quantity,
-            'price' => $product['price'],
-            'total' => $product['price'] * $quantity,
-            'is_paid' => 0,
-        ]);
+        try{
+            static::create([
+                'product_id' => $user['id'],
+                'user_id' => $product['id'],
+                'quantity' => $quantity,
+                'price' => $product['price'],
+                'total_price' => $product['price'] * $quantity,
+                'is_paid' => 0,
+            ]);
+    
+            Product::update(['quantity' => $product['quantity']], ["`id` = '".$product['id']."'"]);
+    
+            return true;
+        }catch(\Exception $e){
+            return false;
+        }
 
-        Product::update(['quantity' => $product['quantity']], ["`id` = '".$product['id']."'"]);
     }
 }
