@@ -39,7 +39,7 @@ class User extends Model
     public static function login($username, $password): array|bool
     {
         $hashed_password = md5($password);
-        $user = User::read(['*'], ["username = $username","password = $hashed_password"]);
+        $user = User::read(['*'], ["`username` = '$username'","`password` = '$hashed_password'"]);
         if(!$user)
             return false;
 
