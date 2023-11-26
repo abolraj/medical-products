@@ -5,6 +5,10 @@
 // Const - Directories
 
 use Dotenv\Dotenv;
+use Pecee\SimpleRouter\SimpleRouter as Router;
+use Pecee\Http\Url;
+use Pecee\Http\Response;
+use Pecee\Http\Request;
 
 define('DIR_APP', DIR_ROOT . '/app');
 define('DIR_CONFIG', DIR_ROOT . '/config');
@@ -114,10 +118,14 @@ function view($path, $data = []){
  *
  * @param string $main e.g. layout/main implies to path /views/layout/main.php will included
  * @param array $data The data passed to the view
+ * @param bool $has_layout The layout parent passed
  * @return void
  */
-function render($main_path, $data = []){
-    $data = array_merge($data, ['_main_path' => $main_path]);
-    extract($data);
-    view('layout/layout', $data);
+function render($main_path, $data = [], $has_layout = true){
+    $data = array_merge($data, [
+        'main_path' => $main_path,
+        'has_layout' => $has_layout,
+    ]);
+    view('layout/index', $data);
 }
+
