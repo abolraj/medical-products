@@ -1,5 +1,5 @@
-<div class="relative flex flex-col justify-center h-screen overflow-hidden">
-    <div class="w-full p-6 m-auto rounded-md shadow-lg lg:max-w-lg">
+<div class="relative flex flex-col justify-center p-4">
+    <div class="w-full p-6 m-auto rounded-md shadow-black shadow-md lg:max-w-lg">
         <?php if ($msg = pop_temp_data('error_message')) : ?>
             <div role="alert" class="error alert alert-error mb-10">
                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
