@@ -56,15 +56,16 @@ function get_config($config_name): array
  * @param array $exclude
  * @return void
  */
-function auto_require_scripts($directory_pattern, $exclude = []) {
+function auto_require_scripts($directory_pattern, $exclude = [])
+{
     $files = glob($directory_pattern . '/*.php');
     // Exclude files
-    if(!empty($exclude)){
-        $files = array_filter($files, function($file) use ($exclude){
+    if (!empty($exclude)) {
+        $files = array_filter($files, function ($file) use ($exclude) {
             return !in_array(pathinfo($file, PATHINFO_FILENAME), $exclude);
         });
     }
-    foreach($files as $file)
+    foreach ($files as $file)
         require_once($file);
 }
 
@@ -77,12 +78,13 @@ function auto_require_scripts($directory_pattern, $exclude = []) {
  * @param string $storage_dir The director in storage e.g. /images (implies to storage/images)
  * @return string
  */
-function store($path, $storage_dir): string{
+function store($path, $storage_dir): string
+{
     $file_info = pathinfo($path);
     $unique_name = md5(file_get_contents($path));
-    $unique_name .= '.'.$file_info['extension'];
+    $unique_name .= '.' . $file_info['extension'];
     $dir = DIR_STORAGE . $storage_dir;
-    if(!file_exists($dir)){
+    if (!file_exists($dir)) {
         mkdir($dir, 0777, true);
     }
     $detination_path =  $dir . '/' . $unique_name;
@@ -97,7 +99,8 @@ function store($path, $storage_dir): string{
  * @param string $storage_dir The director in storage e.g. /images (implies to storage/images)
  * @return void
  */
-function path($unique_name, $storage_dir){
+function path($unique_name, $storage_dir)
+{
     return DIR_STORAGE . $storage_dir . '/' . $unique_name;
 }
 
@@ -108,7 +111,8 @@ function path($unique_name, $storage_dir){
  * @param array $data The data passed to the view
  * @return void
  */
-function view($path, $data = []){
+function view($path, $data = [])
+{
     $path = DIR_VIEWS . '/' . $path . '.php';
     extract($data);
     require($path);
@@ -122,7 +126,8 @@ function view($path, $data = []){
  * @param bool $has_layout The layout parent passed
  * @return void
  */
-function render($main_path, $data = [], $has_layout = true){
+function render($main_path, $data = [], $has_layout = true)
+{
     $data = array_merge($data, [
         'main_path' => $main_path,
         'has_layout' => $has_layout,
@@ -139,11 +144,12 @@ function render($main_path, $data = [], $has_layout = true){
  * @param integer $ttl
  * @return void
  */
-function set_temp_data($key, $value, $ttl = 60){
+function set_temp_data($key, $value, $ttl = 60)
+{
     $value = serialize($value);
     $en_value = base64_encode($value);
-    $hashed_key = md5(env('APP_NAME','APP_NAME') . $key);
-    
+    $hashed_key = md5(env('APP_NAME', 'APP_NAME') . $key);
+
     setcookie($hashed_key, $en_value, time() + $ttl, '/');
 }
 
@@ -155,15 +161,16 @@ function set_temp_data($key, $value, $ttl = 60){
  * @param bool $pop True, will delete the data after getting
  * @return mixed
  */
-function get_temp_data($key, $default = null, $pop = false): mixed{
-    $hashed_key = md5(env('APP_NAME','APP_NAME') . $key);
-    if(!isset($_COOKIE[$hashed_key]))
+function get_temp_data($key, $default = null, $pop = false): mixed
+{
+    $hashed_key = md5(env('APP_NAME', 'APP_NAME') . $key);
+    if (!isset($_COOKIE[$hashed_key]))
         return $default;
     $value = base64_decode($_COOKIE[$hashed_key]);
     $value = unserialize($value);
-    if($pop){
+    if ($pop) {
         unset($_COOKIE[$hashed_key]);
-        setcookie($hashed_key, null, time()-3600, '/');
+        setcookie($hashed_key, null, time() - 3600, '/');
     }
     return $value;
 }
@@ -175,7 +182,8 @@ function get_temp_data($key, $default = null, $pop = false): mixed{
  * @param string $default
  * @return string
  */
-function pop_temp_data($key, $default = null): mixed{
+function pop_temp_data($key, $default = null): mixed
+{
     return get_temp_data($key, $default, true);
 }
 
@@ -184,14 +192,28 @@ function pop_temp_data($key, $default = null): mixed{
  *
  * @return mixed
  */
-function user($key = null): mixed{
+function user($key = null): mixed
+{
     $user = User::current_user();
-    
-    return $user 
-        ?($key ?$user[$key] :$user)
+
+    return $user
+        ? ($key ? $user[$key] : $user)
         : $user;
 }
 
+/**
+ * Log the message
+ *
+ * @param string $message
+ * @param string $type
+ * @return void
+ */
+function log($message, $type = 'info')
+{
+    $log_file = DIR_ROOT . '/live.log';
+    $log_content = '[' . date('Y-m-d H:i:s') . '] ' . strtoupper($type) . ': ' . $message . "\n";
+    error_log($log_content, 3, $log_file);
+}
 
 /**
  * The helper functions for router
@@ -279,6 +301,7 @@ function csrf_token(): ?string
     return null;
 }
 
-function get_asset($asset_path){
+function get_asset($asset_path)
+{
     return '/assets' . $asset_path;
 }
