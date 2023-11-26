@@ -76,4 +76,15 @@ class User extends Model
 
         return User::read(['*'], ["`username` = '$username'"]);
     }
+
+    /**
+     * Returns the relevant user orders
+     *
+     * @param int $user_id
+     * @return array|bool
+     */
+    public static function orders($user_id): array|bool
+    {
+        return Order::read(['*'], ["`user_id` = '$user_id'"]);
+    }
 }
