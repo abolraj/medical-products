@@ -23,7 +23,10 @@ class User extends Model
         if (isset($_COOKIE[$key])) {
             $data = base64_decode($_COOKIE[$key]);
             $data = json_decode($data, 1);
-            return User::find($data['id']);
+            if (isset($data['id']))
+                return User::find($data['id']);
+            else
+                return false;
         } else {
             return false;
         }
@@ -39,7 +42,7 @@ class User extends Model
     public static function login($username, $password): array|bool
     {
         $hashed_password = md5($password);
-        $user = User::read(['*'], ["`username` = '$username'", "`password` = '$hashed_password'"]);
+        $user = User::read(['*'], ["`username` = '$username'", "`password` = '$hashed_password'"])[0];
         if (!$user)
             return false;
         $cookie_data =  [
