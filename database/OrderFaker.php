@@ -20,6 +20,7 @@ class OrderFaker extends Faker {
             'quantity' => $quantity,
             'price' => $product['price'],
             'total_price' => $quantity * $product['price'],
+            'is_paid' => $faker->boolean(60),
             'product_id' => $faker->randomElement($product_ids),
             'user_id' => $faker->randomElement($user_ids),
         ];
