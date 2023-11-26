@@ -8,11 +8,14 @@
     <title><?= env('APP_TITLE', 'App Title') ?></title>
     <link href="<?=get_asset('/styles/daisy-ui-full.min.css')?>" rel="stylesheet" type="text/css" />
     <link href="<?=get_asset('/styles/styles.css')?>" rel="stylesheet" type="text/css" />
-    <script src="<?=get_asset('/scripts/tailwind-script.js')?>" defer></script>
+    <script src="<?=get_asset('/scripts/tailwind-script.js')?>"></script>
+    <script src="<?=get_asset('/scripts/jquery-3.7.1.min.js')?>"></script>
 </head>
 
 <body>
-    <?= view($has_layout ? 'layout/layout' : $main_path)?>
+    <!-- handle loading -->
+    <?= view('layout/loading', $data)?>
+    <?= view($has_layout ? 'layout/layout' : $main_path, $data)?>
 </body>
 
 </html>
