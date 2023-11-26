@@ -5,6 +5,7 @@
 // Const - Directories
 
 use Dotenv\Dotenv;
+use Model\User;
 use Pecee\SimpleRouter\SimpleRouter as Router;
 use Pecee\Http\Url;
 use Pecee\Http\Response;
@@ -178,6 +179,18 @@ function pop_temp_data($key, $default = null): mixed{
     return get_temp_data($key, $default, true);
 }
 
+/**
+ * Returns current user and false on no user logged in
+ *
+ * @return mixed
+ */
+function user($key = null): mixed{
+    $user = User::current_user();
+    
+    return $user 
+        ?($key ?$user[$key] :$user)
+        : $user;
+}
 
 
 /**
