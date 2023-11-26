@@ -41,12 +41,12 @@ class MySQL extends DBMS
         static::$pdo_statement = static::$pdo->query($query);
     }
 
-    public static function fetch($is_assoc = true): array
+    public static function fetch($is_assoc = true): array|bool
     {
         return static::$pdo_statement->fetch($is_assoc ? \PDO::FETCH_ASSOC : \PDO::FETCH_NUM);
     }
 
-    public static function fetch_all($is_assoc = true): array
+    public static function fetch_all($is_assoc = true): array|bool
     {
         return static::$pdo_statement->fetchAll($is_assoc ? \PDO::FETCH_ASSOC : \PDO::FETCH_NUM);
     }
