@@ -140,9 +140,9 @@ function render($main_path, $data = [], $has_layout = true){
  */
 function set_temp_data($key, $value, $ttl = 60){
     $en_value = base64_encode($value);
-    $en_key = base64_encode(env('APP_NAME','APP_NAME') . $key);
+    $hashed_key = md5(env('APP_NAME','APP_NAME') . $key);
     
-    setcookie($en_key, $en_value, time() + $ttl);
+    setcookie($hashed_key, $en_value, time() + $ttl, '/');
 }
 
 /**
@@ -151,15 +151,17 @@ function set_temp_data($key, $value, $ttl = 60){
  * @param string $key
  * @param string $default
  * @param bool $pop True, will delete the data after getting
- * @return void
+ * @return mixed
  */
-function get_temp_data($key, $default = null, $pop = false){
-    $en_key = base64_encode(env('APP_NAME','APP_NAME') . $key);
-    if(!isset($_COOKIE[$en_key]))
+function get_temp_data($key, $default = null, $pop = false): mixed{
+    $hashed_key = md5(env('APP_NAME','APP_NAME') . $key);
+    if(!isset($_COOKIE[$hashed_key]))
         return $default;
-    $value = base64_decode($_COOKIE[$en_key]);
-    if($pop)
-        setcookie($en_key, null, time()-60);
+    $value = base64_decode($_COOKIE[$hashed_key]);
+    if($pop){
+        unset($_COOKIE[$hashed_key]);
+        setcookie($hashed_key, null, time()-3600, '/');
+    }
     return $value;
 }
 
@@ -168,9 +170,9 @@ function get_temp_data($key, $default = null, $pop = false){
  *
  * @param string $key
  * @param string $default
- * @return void
+ * @return string
  */
-function pop_temp_data($key, $default = null){
+function pop_temp_data($key, $default = null): mixed{
     return get_temp_data($key, $default, true);
 }
 
