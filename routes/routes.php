@@ -1,6 +1,7 @@
 <?php
 
 use Http\Middleware\GuestMiddleware;
+use Model\Product;
 use Model\User;
 use Pecee\Http\Request;
 use Pecee\SimpleRouter\SimpleRouter as Router;
@@ -11,6 +12,13 @@ use Pecee\SimpleRouter\SimpleRouter as Router;
 Router::get('/', function(){
     render('layout/main');
 })->name('home');
+
+// Products
+Router::group(['prefix'=>'/products'], function(){
+    Router::get('/', function(){
+        render('products/list', ['products' => Product::all()]);
+    })->name('products.list');
+});
 
 // Authentication
 Router::group(['middleware' => GuestMiddleware::class], function () {
