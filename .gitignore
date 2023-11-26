@@ -3,3 +3,4 @@ vendor/
 storage/*
 .vscode/
 composer.lock
+*.log
