@@ -79,6 +79,7 @@ if (!in_array('orders', $tables)) {
         `quantity` INT NOT NULL,
         `price` INT NOT NULL,
         `total_price` INT NOT NULL,
+        `is_paid` BOOLEAN NOT NULL,
         FOREIGN KEY (user_id) REFERENCES users(id),
         FOREIGN KEY (product_id) REFERENCES products(id),
         `created_at` DATETIME NOT NULL,
