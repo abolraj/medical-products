@@ -16,9 +16,15 @@ class Order extends Model
         $product['quantity'] -= $quantity;
 
         try{
+            if($offer = Offer::take_offer($user['id'], $product['id'])){
+                $offer_value = +$offer['value'];
+                $product['price'] = ceil( $product['price'] * (100 - $offer_value) / 100 );
+            }
+            report('Take Order With Offer', $offer);
+    
             static::create([
-                'product_id' => $user['id'],
-                'user_id' => $product['id'],
+                'product_id' => $product['id'],
+                'user_id' => $user['id'],
                 'quantity' => $quantity,
                 'price' => $product['price'],
                 'total_price' => $product['price'] * $quantity,
@@ -29,6 +35,7 @@ class Order extends Model
     
             return true;
         }catch(\Exception $e){
+            report('Error Take Order', $e->getMessage());
             return false;
         }
 
