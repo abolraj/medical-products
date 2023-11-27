@@ -92,4 +92,15 @@ class User extends Model
     {
         return Order::read(['*'], ["`user_id` = '$user_id'"]);
     }
+
+    /**
+     * Returns the relevant user offers
+     *
+     * @param int $user_id
+     * @return array|bool
+     */
+    public static function offers($user_id): array|bool
+    {
+        return Offer::read(['*'], ["`user_id` = '$user_id'"]);
+    }
 }
