@@ -33,14 +33,14 @@ Router::group(['prefix' => '/products'], function () {
             'Least Number' => ['quantity', 'asc'],
         ];
         $user_id = user('id');
-        $offers = $user_id 
-            ? Offer::read(['*'],["`user_id` = '$user_id'", "consumed_at IS NULL"]) 
+        $offers = $user_id
+            ? Offer::read(['*'], ["`user_id` = '$user_id'", "consumed_at IS NULL"])
             : null;
-        if($offers){
+        if ($offers) {
             $offers = array_column($offers, null, 'product_id');
         }
 
-        render('products/list', ['products' => $products, 'user' => user(), 'order_bys' => $order_bys, 'offers'=>$offers]);
+        render('products/list', ['products' => $products, 'user' => user(), 'order_bys' => $order_bys, 'offers' => $offers]);
     })->name('products.list');
     // Pay
     Router::post('/{id}/pay', function ($product_id) {
@@ -66,6 +66,53 @@ Router::group(['prefix' => '/products'], function () {
         }
     });
 });
+
+// Orders
+Router::group(['middleware' => AuthMiddleware::class, 'prefix' => '/orders'], function () {
+    // List orders
+    Router::get('/', function(){
+        $user_id = user('id');
+        $orders = User::orders($user_id);
+        $orders = array_map(function($order){
+            $order['product'] = Product::find($order['product_id']);
+            return $order;
+        }, $orders);
+
+        render('orders/list', [
+            'orders' => $orders,
+            'user' => user(),
+        ]);
+    })->name('orders.list');
+    // Cancel order
+    Router::post('/{id}/cancel', function ($order_id) {
+        if (Order::cancel_order($order_id)) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'Cancelled successfully !',
+            ]);
+        } else {
+            return response()->httpCode(401)->json([
+                'code' => 401,
+                'message' => 'Cancelling failed !',
+            ]);
+        }
+    })->name('orders.cancel');
+    // Pay order
+    Router::post('/{id}/pay', function ($order_id) {
+        if (Order::pay_order($order_id)) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'Paid successfully !',
+            ]);
+        } else {
+            return response()->httpCode(401)->json([
+                'code' => 401,
+                'message' => 'Paying failed !',
+            ]);
+        }
+    })->name('orders.pay');
+});
+
 // Logout
 Router::get('/logout', function () {
     User::logout();
