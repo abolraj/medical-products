@@ -17,33 +17,38 @@ echo "User ...";
 for($i = 0; $i < 10; $i++){
     $data = UserFaker::generate();
     User::create($data);
+    echo "+";
+
 }
 echo "Ok\n";
 
 
 // Seed Product fake
 echo "Product ...";
-for($i = 0; $i < 5; $i++){
+for($i = 0; $i < 30; $i++){
     $data = ProductFaker::generate();
     Product::create($data);
+    echo "+";
 }
 echo "Ok\n";
 
 
 // Seed Offer fake
 echo "Offer ...";
-for($i = 0; $i < 10; $i++){
+for($i = 0; $i < 100; $i++){
     $data = OfferFaker::generate();
     Offer::create($data);
+    echo "+";
 }
 echo "Ok\n";
 
 
 // Seed Order fake
 echo "Order ...";
-for($i = 0; $i < 20; $i++){
+for($i = 0; $i < 60; $i++){
     $data = OrderFaker::generate();
     Order::create($data);
+    echo "+";
 }
 echo "Ok\n";
 
