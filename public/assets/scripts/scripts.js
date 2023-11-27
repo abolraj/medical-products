@@ -22,6 +22,51 @@ $(document).ready($ => {
             }
         })
     }
+    // Handle the pay order
+    function pay_order(order_id){
+        $.ajax({
+            url: root_url + '/orders/' + order_id + '/pay',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+            },
+            success(response){
+                console.log('success',response)
+                window.location.reload()
+            },
+            error(err, message){
+                console.log('error', message, err)
+            }
+        })
+    }
+    // Handle the cancel order
+    function cancel_order(order_id){
+        $.ajax({
+            url: root_url + '/orders/' + order_id + '/cancel',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+            },
+            success(response){
+                console.log('success',response)
+                window.location.reload()
+            },
+            error(err, message){
+                console.log('error', message, err)
+            }
+        })
+    }
+
+    // Handle order events
+    $('#list-orders .pay-btn').on('click', function(){
+        const order_id = $(this).data('order-id')
+        pay_order(order_id)
+    })
+    $('#list-orders .cancel-btn').on('click', function(){
+        const order_id = $(this).data('order-id')
+        cancel_order(order_id)
+    })
+
     $('#list-products .pay-btn').on('click', function(){
         const product_id = $(this).data('product-id')
         const user_id = $(this).data('user-id')
@@ -68,7 +113,6 @@ $(document).ready($ => {
         const quantity = $('#pay-product-modal .range').val()
         pay_product(product_id, user_id, quantity)
     })
-
 
 
 
