@@ -33,7 +33,7 @@ composer install
 
     `reset` arg will reset the database : clear database and boot again
 
-    `seed` arg will insert the database records involving in [](database/seeder.php)
+    `seed` arg will insert the database records involving in [database/seeder.php](database/seeder.php)
 ```bash
 php database/boot.php reset seed
 ```
@@ -117,7 +117,7 @@ Back-end : Laravel, Wordpress, PHP
 Front-end : React, jQuery, TailwindCSS, Bootstrap5, HTML, CSS, JavaScript
 
 ## License
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See [`LICENSE`](LICENSE) for more information.
 
 ## Contact
 Abolfazl Rajaee nasab - itgholamollah@email.com
