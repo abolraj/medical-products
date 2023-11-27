@@ -1,6 +1,6 @@
 <!-- header -->
 <?= view('layout/header', $data) ?>
-<div class="flex flex-wrap justify-center ">
+<div class="flex flex-wrap-reverse justify-center ">
     <!-- main -->
     <?= view($main_path ?? 'layout/main', $data) ?>
     <!-- sidebar -->
