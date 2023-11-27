@@ -1,8 +1,11 @@
 <header>
-    <div class="navbar bg-base-200">
-        <div class="flex-1">
-            <a class="btn btn-ghost rounded-md text-xl" href="<?= url('home') ?>">
+    <div class="navbar flex-wrap bg-base-200">
+        <div class="flex-1 flex flex-wrap">
+            <a class="btn btn-ghost rounded-md text-xl w-max" href="<?= url('home') ?>">
                 <?= env('APP_NAME', 'App Name') ?>
+            </a>
+            <a class="btn btn-ghost rounded-md text-xl" href="<?= url('products.list') ?>">
+                All Products
             </a>
         </div>
         <div class="flex-none">
@@ -32,7 +35,7 @@
                 </div>
             <?php endif; ?>
             <?php if ($orders) : ?>
-                <div class="dropdown dropdown-end">
+                <div class="dropdown dropdown-bottom">
                     <label tabindex="0" class="btn btn-ghost rounded-full">
                         <h2>
                             <?= user('username') ?>
@@ -49,7 +52,7 @@
                             Login / Register
                         </h2>
                     </label>
-                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <ul tabindex="0" class="menu menu-sm w-full dropdown-content sm:right-0 mt-3 z-[1] p-2 shadow bg-base-100 rounded-box">
                         <li><a href="<?= url('auth.login') ?>">Login</a></li>
                         <li><a href="<?= url('auth.register') ?>">Register</a></li>
                     </ul>
