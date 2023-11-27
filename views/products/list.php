@@ -10,6 +10,9 @@
         <div class="range-modifiers text-secondary w-full flex justify-between text-xs px-2">
         </div>
 
+        <label class="label">Phone number :</label>
+        <input type="text" class="input input-secondary" value="<?=user('phone')?>" readonly/>
+
         <div class="modal-action">
             <button class="btn-pay btn btn btn-success">Pay It !</button>
             <form method="dialog">
