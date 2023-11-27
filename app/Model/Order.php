@@ -28,7 +28,6 @@ class Order extends Model
                 $offer_value = +$offer['value'];
                 $product['price'] = ceil($product['price'] * (100 - $offer_value) / 100);
             }
-            report('Take Order With Offer', $offer);
 
             static::create([
                 'product_id' => $product['id'],
@@ -85,7 +84,7 @@ class Order extends Model
             );
 
             // Delete the order
-            static::delete(["id = `$order_id`"]);
+            static::delete(["`id` = '$order_id'"]);
 
             return $order;
         } catch (\Exception $e) {
@@ -116,6 +115,7 @@ class Order extends Model
                     " `is_paid` = 0 ",
                 ]
             );
+            return $order;
         } catch (\Exception $e) {
             report('Error Pay Order', $e->getMessage());
             return false;
