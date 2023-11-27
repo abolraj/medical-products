@@ -22,7 +22,6 @@ class Offer extends Model
         // Handle if there is an offer
         if ($offer) {
             $offer = $offer[0];
-            report(json_encode($offer), 'Take Offer');
             if (!$offer['consumed_at'] && strtotime($offer['expired_at']) >= time()) {
                 static::update(
                     [
