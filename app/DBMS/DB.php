@@ -48,7 +48,7 @@ class DB extends DBMS
             return static::$dbms::query($query);
         }catch(\Exception $e){
             $msg = sprintf('Query:{%s} Message:{%s}', $query, $e->getMessage());
-            report($msg, 'DB Error');
+            report('DB Error', $msg);
         }
     }
 
