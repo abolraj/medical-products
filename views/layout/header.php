@@ -35,13 +35,13 @@
                 </div>
             <?php endif; ?>
             <?php if ($orders) : ?>
-                <div class="dropdown dropdown-bottom">
+                <div class="dropdown dropdown-end">
                     <label tabindex="0" class="btn btn-ghost rounded-full">
                         <h2>
                             <?= user('username') ?>
                         </h2>
                     </label>
-                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-full">
                         <li><a href="<?= url('auth.logout') ?>">Logout</a></li>
                     </ul>
                 </div>
