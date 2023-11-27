@@ -8,6 +8,14 @@ class Order extends Model
 {
     protected static string $table = 'orders';
 
+    /**
+     * Take one order with an amount of quantity
+     *
+     * @param array $product
+     * @param array $user
+     * @param int $quantity
+     * @return array|boolean
+     */
     public static function take_order($product, $user, $quantity): array|bool
     {
         if ($product['quantity'] < $quantity) {
@@ -40,6 +48,12 @@ class Order extends Model
         }
     }
 
+    /**
+     * Cancel the order
+     *
+     * @param int $order_id
+     * @return array|boolean
+     */
     public static function cancel_order($order_id): array|bool
     {
         try {
@@ -58,7 +72,7 @@ class Order extends Model
                     "`product_id` = '$product_id'",
                 ]
             );
-    
+
             // Give quantity to product
             $product = Product::find($product_id);
             Product::update(
@@ -69,10 +83,10 @@ class Order extends Model
                     "`id` = '$product_id'",
                 ]
             );
-    
+
             // Delete the order
-            static::delete(["id = `$order_id`"]);  
-            
+            static::delete(["id = `$order_id`"]);
+
             return $order;
         } catch (\Exception $e) {
             report('Error Cancel Order', $e->getMessage());
@@ -86,10 +100,11 @@ class Order extends Model
      * @param int $order_id
      * @return array|boolean
      */
-    public static function pay_order($order_id): array|bool{
+    public static function pay_order($order_id): array|bool
+    {
         try {
             $order = static::find($order_id);
-            if(!$order || $order['is_paid'])
+            if (!$order || $order['is_paid'])
                 return false;
 
             static::update(
@@ -101,7 +116,7 @@ class Order extends Model
                     " `is_paid` = 0 ",
                 ]
             );
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             report('Error Pay Order', $e->getMessage());
             return false;
         }
