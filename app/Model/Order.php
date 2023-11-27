@@ -44,7 +44,7 @@ class Order extends Model
     {
         try {
             $order = static::find($order_id);
-            if (!$order)
+            if (!$order || $order['is_paid'])
                 return $order;
             $user_id = $order['user_id'];
             $product_id = $order['product_id'];
@@ -76,6 +76,33 @@ class Order extends Model
             return $order;
         } catch (\Exception $e) {
             report('Error Cancel Order', $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Pay the order
+     *
+     * @param int $order_id
+     * @return array|boolean
+     */
+    public static function pay_order($order_id): array|bool{
+        try {
+            $order = static::find($order_id);
+            if(!$order || $order['is_paid'])
+                return false;
+
+            static::update(
+                [
+                    'is_paid' => true,
+                ],
+                [
+                    " `id` = '$order_id' ",
+                    " `is_paid` = 0 ",
+                ]
+            );
+        }catch(\Exception $e){
+            report('Error Pay Order', $e->getMessage());
             return false;
         }
     }
