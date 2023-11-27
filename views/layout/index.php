@@ -8,6 +8,7 @@
     <title><?= env('APP_TITLE', 'App Title') ?></title>
     <link href="<?=get_asset('/styles/daisy-ui-full.min.css')?>" rel="stylesheet" type="text/css" />
     <link href="<?=get_asset('/styles/styles.css')?>" rel="stylesheet" type="text/css" />
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon.png">
     <script src="<?=get_asset('/scripts/tailwind-script.js')?>"></script>
     <script src="<?=get_asset('/scripts/jquery-3.7.1.min.js')?>"></script>
     <script src="<?=get_asset('/scripts/scripts.js')?>" defer></script>
