@@ -23,7 +23,7 @@
     </div>
 </dialog>
 
-<main class="min-h-screen max-w-screen-lg mx-auto p-4">
+<main class="min-h-screen max-w-full mx-auto p-4">
     <h2 class="text-xl mb-5">Products, you can pick and pay your owns !</h2>
     <ul id="list-products" class="flex flex-wrap gap-2">
         <?php foreach ($products as $product) : ?>
