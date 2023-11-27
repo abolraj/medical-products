@@ -19,7 +19,20 @@ Router::get('/', function () {
 Router::group(['prefix' => '/products'], function () {
     // List all
     Router::get('/', function () {
-        render('products/list', ['products' => Product::all(), 'user'=>user()]);
+        $order = $_GET['order'] ?? null;
+        $order_by = $_GET['order_by'] ?? 'updated_at';
+        $order_desc = ($_GET['order_asc'] ?? true) ? 'DESC' : 'ASC';
+        $products = Product::read(['*'],['1'],['order_by'=> "$order" ?: "$order_by $order_desc",]);
+        $order_bys = [
+            'Newest Products' => ['created_at','desc'],
+            'Oldest Products' => ['created_at','asc'],
+            'Most Expensive Products' => ['price','desc'],
+            'Chipeast Products' => ['price','asc'],
+            'Most Number' => ['quantity','desc'],
+            'Least Number' => ['quantity', 'asc'],
+        ];
+
+        render('products/list', ['products' => $products, 'user'=>user(), 'order_bys'=> $order_bys]);
     })->name('products.list');
     // Pay
     Router::post('/{id}/pay', function ($product_id) {
