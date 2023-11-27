@@ -15,6 +15,7 @@ $(document).ready($ => {
                 $('.user-orders-count').text((i,t)=>+t+1)
                 $('#pay-product-modal').prop('open', false)
                 console.log('success',response)
+                window.location.reload()
             },
             error(err, message){
                 console.log('error', message, err)
