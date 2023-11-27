@@ -77,6 +77,11 @@ class User extends Model
         return User::read(['*'], ["`username` = '$username'"]);
     }
 
+    public static function logout(){
+        $key = static::get_cookie_key();
+        setcookie($key, null, time() - 3600, '/');
+    }
+
     /**
      * Returns the relevant user orders
      *
