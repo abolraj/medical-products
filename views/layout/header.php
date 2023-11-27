@@ -28,7 +28,7 @@
                             <span class="font-bold text-lg"><?= isset($unpaid_orders) ? count($unpaid_orders) : '' ?> Items</span>
                             <span class="text-info">Total: <span class="user-orders-count"><?= $total_price ?></span>$</span>
                             <div class="card-actions">
-                                <button class="btn btn-primary btn-block">View cart</button>
+                                <a class="btn btn-primary btn-block" href="<?=url('orders.list')?>">View Orders</a>
                             </div>
                         </div>
                     </div>
