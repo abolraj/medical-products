@@ -86,14 +86,17 @@ function auto_require_scripts($directory_pattern, $exclude = [])
 function store($path, $storage_dir): string
 {
     $file_info = pathinfo($path);
-    $unique_name = md5(file_get_contents($path));
+    // $unique_name = crc32(file_get_contents($path)); // Slow
+    // $unique_name = hash_file('md5', $path); //Slow
+    $unique_name = md5($path); // Fast
     $unique_name .= '.' . $file_info['extension'];
     $dir = DIR_STORAGE . $storage_dir;
     if (!file_exists($dir)) {
         mkdir($dir, 0777, true);
     }
-    $detination_path =  $dir . '/' . $unique_name;
-    copy($path, $detination_path);
+    $destination_path =  $dir . '/' . $unique_name;
+    if (!file_exists($destination_path))
+        copy($path, $destination_path);
     return $unique_name;
 }
 
@@ -268,16 +271,16 @@ function user_orders($id = null)
 }
 
 /**
- * Log the message
+ * Log the messages
  *
- * @param string $message
  * @param string $type
+ * @param string ...$message
  * @return void
  */
-function report($message, $type = 'info')
+function report($type = 'info', ...$messages)
 {
     $log_file = DIR_ROOT . '/live.log';
-    $log_content = '[' . date('Y-m-d H:i:s') . '] ' . strtoupper($type) . ': ' . $message . "\n";
+    $log_content = '[' . date('Y-m-d H:i:s') . '] ' . strtoupper($type) . ': ' . json_encode($messages) . "\n";
     error_log($log_content, 3, $log_file);
 }
 
