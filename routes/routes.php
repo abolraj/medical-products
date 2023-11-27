@@ -2,6 +2,7 @@
 
 use Http\Middleware\AuthMiddleware;
 use Http\Middleware\GuestMiddleware;
+use Model\Offer;
 use Model\Order;
 use Model\Product;
 use Model\User;
@@ -31,8 +32,15 @@ Router::group(['prefix' => '/products'], function () {
             'Most Number' => ['quantity', 'desc'],
             'Least Number' => ['quantity', 'asc'],
         ];
+        $user_id = user('id');
+        $offers = $user_id 
+            ? Offer::read(['*'],["`user_id` = '$user_id'", "consumed_at IS NULL"]) 
+            : null;
+        if($offers){
+            $offers = array_column($offers, null, 'product_id');
+        }
 
-        render('products/list', ['products' => $products, 'user' => user(), 'order_bys' => $order_bys]);
+        render('products/list', ['products' => $products, 'user' => user(), 'order_bys' => $order_bys, 'offers'=>$offers]);
     })->name('products.list');
     // Pay
     Router::post('/{id}/pay', function ($product_id) {
