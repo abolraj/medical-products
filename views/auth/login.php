@@ -1,4 +1,4 @@
-<div class="relative flex flex-col justify-center min-h-screen p-4">
+<div class="relative flex flex-col justify-center min-h-screen w-[40rem] p-4">
     <div class="w-full p-6 m-auto rounded-md shadow-black shadow-md lg:max-w-lg">
         <?php if ($msg = pop_temp_data('error_message')) : ?>
             <div role="alert" class="error alert alert-error mb-10">
