@@ -60,12 +60,15 @@ if (!in_array('products', $tables)) {
 if (!in_array('offers', $tables)) {
     $q = 'CREATE TABLE `offers` (
         `id` INT PRIMARY KEY AUTO_INCREMENT,
-        `product_id` INT UNIQUE,
+        `user_id` INT NOT NULL,
+        `product_id` INT NOT NULL,
         `value` DECIMAL(10,2) NOT NULL,
-        FOREIGN KEY (product_id) REFERENCES products(id),
         `expired_at` DATETIME,
         `created_at` DATETIME NOT NULL,
-        `updated_at` DATETIME
+        `updated_at` DATETIME,
+        `consumed_at` DATETIME,
+        FOREIGN KEY (product_id) REFERENCES products(id),
+        UNIQUE KEY `unique_id` (`user_id`,`product_id`)
     );';
 DB::query($q);
 }
