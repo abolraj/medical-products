@@ -13,7 +13,7 @@ class GuestMiddleware implements IMiddleware
         $request->user = User::current_user();
         // If authentication failed, redirect request to user-login page.
         if ($request->user) {
-            $request->setRewriteUrl(url('home'));
+            response()->redirect(url('home'));
         }
     }
 }
