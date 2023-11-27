@@ -91,6 +91,15 @@ class DB extends DBMS
     public static function filter_sql_values($values, $excludes = []): array
     {
         return array_map(function ($value) use ($excludes) {
+            if($value === null){
+                return 'null';
+            }
+            if($value === false){
+                return '0';
+            }
+            if($value === true){
+                return '1';
+            }
             if(in_array($value, $excludes))
                 return $value;
             $value = addslashes($value);
