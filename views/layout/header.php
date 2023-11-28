@@ -34,7 +34,7 @@
                     </div>
                 </div>
             <?php endif; ?>
-            <?php if ($orders) : ?>
+            <?php if (user()) : ?>
                 <div class="dropdown dropdown-end">
                     <label tabindex="0" class="btn btn-ghost rounded-full">
                         <h2>
